@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/auth-user-details', function () {
+    return response()->json([
+        'data' => auth()->user()
+    ]);
+});
+
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
