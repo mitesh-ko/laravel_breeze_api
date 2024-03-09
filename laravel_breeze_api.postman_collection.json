@@ -5,7 +5,7 @@
 	},
 	"item": [
 		{
-			"name": "Get XSRF token",
+			"name": "Register",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -15,31 +15,43 @@
 						],
 						"type": "text/javascript"
 					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// If the status code is 200, extract the token and set it as a collection variable",
-							"if (pm.response.code === 204) {",
-							"    pm.collectionVariables.set('xsrf-token', pm.cookies.get('XSRF-TOKEN'))",
-							"}"
-						],
-						"type": "text/javascript"
-					}
 				}
 			],
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{origin}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"admin\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\":\"12345678\",\r\n    \"password_confirmation\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{origin}}/sanctum/csrf-cookie",
+					"raw": "{{origin}}/register",
 					"host": [
 						"{{origin}}"
 					],
 					"path": [
-						"sanctum",
-						"csrf-cookie"
+						"register"
 					]
 				}
 			},
@@ -93,59 +105,6 @@
 					],
 					"path": [
 						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Register",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-XSRF-TOKEN",
-						"value": "{{xsrf-token}}",
-						"type": "text"
-					},
-					{
-						"key": "Referer",
-						"value": "{{origin}}",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"admin\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\":\"12345678\",\r\n    \"password_confirmation\": \"12345678\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{origin}}/register",
-					"host": [
-						"{{origin}}"
-					],
-					"path": [
-						"register"
 					]
 				}
 			},
@@ -291,7 +250,7 @@
 			"response": []
 		},
 		{
-			"name": "Verification notification",
+			"name": "Mail verification notification",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -441,11 +400,11 @@
 		},
 		{
 			"key": "xsrf-token",
-			"value": ""
+			"value": "eyJpdiI6Ik9yTzhQQ0RHUTRaTHhMQVJnWjRsd0E9PSIsInZhbHVlIjoiUjZpYlB2bEhEWElpNU5MRFp1R0Y5MjF3bkJnVmFXRHFVc0xONG5aamNWZTI5THVHTDJJRzZrOEFjMStGb0JQS1Z0Nkd4UUYrbjJ3NFJiSUdTRU1pdmlNYjE3YlczbStYcDFtU0VuUFRZNFBVTHNmblR0K045RXNjcDdEYU9wV2giLCJtYWMiOiI2YmIyNGE3MzljY2ZhYjk5OGZmYzI3ZDU4NGZiNjBiZjBlZjU5MzVhZTFlZGM4Yzc0MThmNTkyNzVkMDZhMDc1IiwidGFnIjoiIn0="
 		},
 		{
 			"key": "email",
-			"value": "demo_user1@yopmail.com",
+			"value": "admindhfdsf@yopmail.com",
 			"type": "string"
 		},
 		{
